@@ -4,6 +4,7 @@ import { GACHA_POOLS } from '../data/gachaPools';
 import { GachaService } from '../services/gachaService';
 import { useGameState } from '../hooks/useGameState';
 import { ItemCard } from './ItemCard';
+import { GachaAnimation } from './GachaAnimation';
 import { Coins, Gem, Sparkles } from 'lucide-react';
 
 export const GachaPanel: React.FC = () => {
@@ -11,6 +12,7 @@ export const GachaPanel: React.FC = () => {
   const [selectedPool, setSelectedPool] = useState<GachaPool>(GACHA_POOLS[0]);
   const [summoning, setSummoning] = useState(false);
   const [lastSummonResults, setLastSummonResults] = useState<Item[]>([]);
+  const [animationItems, setAnimationItems] = useState<Item[] | null>(null);
 
   const handleSummon = async (count: number = 1) => {
     const totalCost = selectedPool.cost * count;
@@ -29,6 +31,10 @@ export const GachaPanel: React.FC = () => {
       
       results.forEach(item => addToInventory(item));
       setLastSummonResults(results);
+
+      if (count === 10) {
+        setAnimationItems(results);
+      }
       
       updateStats({
         totalSummons: gameState.stats.totalSummons + count
@@ -161,6 +167,13 @@ export const GachaPanel: React.FC = () => {
           ))}
         </div>
       </div>
+
+      {animationItems && (
+        <GachaAnimation
+          items={animationItems}
+          onComplete={() => setAnimationItems(null)}
+        />
+      )}
     </div>
   );
 };
