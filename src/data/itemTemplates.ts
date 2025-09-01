@@ -38,7 +38,17 @@ export const ITEM_TEMPLATES: ItemTemplate[] = [
     description: 'A sword imbued with the power of fire.',
     icon: '🔥'
   },
-  
+
+  // Super Rare Weapons
+  {
+    name: 'Photon Blade',
+    family: ItemFamily.WEAPON,
+    rarity: Rarity.SUPER_RARE,
+    basePower: 75,
+    description: 'A blade forged from condensed light.',
+    icon: '✨'
+  },
+
   // Epic Weapons
   {
     name: 'Dragon Fang',
@@ -117,6 +127,16 @@ export const ITEM_TEMPLATES: ItemTemplate[] = [
     basePower: 300,
     description: 'A being from beyond the stars.',
     icon: '🌟'
+  },
+
+  // Immortal Characters
+  {
+    name: 'Time Weaver',
+    family: ItemFamily.CHARACTER,
+    rarity: Rarity.IMMORTAL,
+    basePower: 500,
+    description: 'An eternal being that manipulates time itself.',
+    icon: '⏳'
   }
 ];
 
@@ -124,16 +144,20 @@ export const RARITY_COLORS = {
   [Rarity.COMMON]: 'from-gray-400 to-gray-600',
   [Rarity.UNCOMMON]: 'from-green-400 to-green-600',
   [Rarity.RARE]: 'from-blue-400 to-blue-600',
+  [Rarity.SUPER_RARE]: 'from-teal-400 to-teal-600',
   [Rarity.EPIC]: 'from-purple-400 to-purple-600',
   [Rarity.LEGENDARY]: 'from-orange-400 to-orange-600',
-  [Rarity.MYTHIC]: 'from-pink-400 to-pink-600'
+  [Rarity.MYTHIC]: 'from-pink-400 to-pink-600',
+  [Rarity.IMMORTAL]: 'from-yellow-400 to-yellow-600'
 };
 
 export const RARITY_GLOW = {
   [Rarity.COMMON]: 'shadow-gray-400/50',
   [Rarity.UNCOMMON]: 'shadow-green-400/50',
   [Rarity.RARE]: 'shadow-blue-400/50',
+  [Rarity.SUPER_RARE]: 'shadow-teal-400/50',
   [Rarity.EPIC]: 'shadow-purple-400/50',
   [Rarity.LEGENDARY]: 'shadow-orange-400/50',
-  [Rarity.MYTHIC]: 'shadow-pink-400/50'
+  [Rarity.MYTHIC]: 'shadow-pink-400/50',
+  [Rarity.IMMORTAL]: 'shadow-yellow-400/50'
 };

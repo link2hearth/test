@@ -33,9 +33,11 @@ export enum Rarity {
   COMMON = 'common',
   UNCOMMON = 'uncommon',
   RARE = 'rare',
+  SUPER_RARE = 'super_rare',
   EPIC = 'epic',
   LEGENDARY = 'legendary',
-  MYTHIC = 'mythic'
+  MYTHIC = 'mythic',
+  IMMORTAL = 'immortal'
 }
 
 export enum ItemFamily {

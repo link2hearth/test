@@ -6,10 +6,14 @@ export class GachaService {
     return GACHA_POOLS.find(pool => pool.id === poolId);
   }
 
-  static performSummon(pool: GachaPool): Item {
+  static performSummon(pool: GachaPool): Item | null {
     const rarity = this.rollRarity(pool.rates);
+    if (!rarity) {
+      return null; // Nothing or basic resource
+    }
+
     const availableItems = pool.availableItems.filter(item => item.rarity === rarity);
-    
+
     if (availableItems.length === 0) {
       // Fallback to common if no items of rolled rarity
       const commonItems = pool.availableItems.filter(item => item.rarity === Rarity.COMMON);
@@ -21,15 +25,15 @@ export class GachaService {
     return this.createItemFromTemplate(template);
   }
 
-  static performMultiSummon(pool: GachaPool, count: number): Item[] {
-    const results: Item[] = [];
+  static performMultiSummon(pool: GachaPool, count: number): (Item | null)[] {
+    const results: (Item | null)[] = [];
     for (let i = 0; i < count; i++) {
       results.push(this.performSummon(pool));
     }
     return results;
   }
 
-  private static rollRarity(rates: Record<Rarity, number>): Rarity {
+  private static rollRarity(rates: Record<Rarity, number>): Rarity | null {
     const random = Math.random();
     let cumulative = 0;
 
@@ -40,7 +44,7 @@ export class GachaService {
       }
     }
 
-    return Rarity.COMMON; // Fallback
+    return null; // No item
   }
 
   private static createItemFromTemplate(template: ItemTemplate): Item {
@@ -82,9 +86,11 @@ export class GachaService {
       [Rarity.COMMON]: 1,
       [Rarity.UNCOMMON]: 2,
       [Rarity.RARE]: 4,
+      [Rarity.SUPER_RARE]: 6,
       [Rarity.EPIC]: 8,
       [Rarity.LEGENDARY]: 16,
-      [Rarity.MYTHIC]: 32
+      [Rarity.MYTHIC]: 32,
+      [Rarity.IMMORTAL]: 64
     };
     return multipliers[rarity];
   }

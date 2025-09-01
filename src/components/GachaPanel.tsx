@@ -7,7 +7,7 @@ import { ItemCard } from './ItemCard';
 import { Coins, Gem, Sparkles } from 'lucide-react';
 
 export const GachaPanel: React.FC = () => {
-  const { gameState, spendResources, addToInventory, updateStats } = useGameState();
+  const { gameState, spendResources, addToInventory, updateStats, updateResources } = useGameState();
   const [selectedPool, setSelectedPool] = useState<GachaPool>(GACHA_POOLS[0]);
   const [summoning, setSummoning] = useState(false);
   const [lastSummonResults, setLastSummonResults] = useState<Item[]>([]);
@@ -23,12 +23,24 @@ export const GachaPanel: React.FC = () => {
     
     // Simulate summon animation delay
     setTimeout(() => {
-      const results = count === 1 
+      const results = count === 1
         ? [GachaService.performSummon(selectedPool)]
         : GachaService.performMultiSummon(selectedPool, count);
-      
-      results.forEach(item => addToInventory(item));
-      setLastSummonResults(results);
+
+      let basicRewards = 0;
+      results.forEach(item => {
+        if (item) {
+          addToInventory(item);
+        } else {
+          basicRewards += 10; // fallback reward
+        }
+      });
+
+      if (basicRewards > 0) {
+        updateResources({ coins: gameState.resources.coins + basicRewards });
+      }
+
+      setLastSummonResults(results.filter((i): i is Item => i !== null));
       
       updateStats({
         totalSummons: gameState.stats.totalSummons + count
